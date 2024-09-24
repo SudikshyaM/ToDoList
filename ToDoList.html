@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="todo.css">
+</head>
+<body>
+    <div class="card">
+        <h3>To-Do List</h3>
+        <!-- <i class="fa-solid fa-list"></i> -->
+        <input type="text" name="search" id="search" placeholder="Add your task">
+        <button id="add">Add</button>
+        
+            <ul id="listElement">
+
+            </ul>
+        
+    </div>
+</body>
+<script>
+   document.getElementById('add').addEventListener('click',function(){
+    let content=document.querySelector('#search').value;
+    if(content === ''){
+        alert("You must write something");
+    }
+    else{
+        let li=document.createElement('li');
+        li.innerHTML=content;
+        document.getElementById('listElement').appendChild(li);
+        let span=document.createElement('span');
+        span.innerHTML="\u00d7";
+        li.appendChild(span);
+    }
+    document.querySelector('#search').value = '';
+    saveData();
+   });
+
+   document.getElementById('listElement').addEventListener('click',function(e){
+      if(e.target.tagName==='LI'){
+        e.target.classList.toggle("checked");
+      }
+      else if(e.target.tagName==='SPAN'){
+        e.target.parentElement.remove();
+        saveData();
+      }
+    
+   },false);
+
+   function saveData(){
+    localStorage.setItem("data",document.getElementById('listElement').innerHTML);
+   }
+   function showList(){
+    document.getElementById('listElement').innerHTML=localStorage.getItem("data");
+   }
+   showList();
+</script>
+</html>
